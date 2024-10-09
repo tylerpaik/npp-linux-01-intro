@@ -3,13 +3,18 @@
 # INCLUDE ALL COMMANDS NEEDED TO PERFORM THE LAB
 # This file will get called from capture_submission.sh
 
-source ./provided/make_aliases.sh
-sudo containerlab deploy -t 4node-part1.clab.yml
-./provided/change_mac_addrs.sh
+docker exec clab-lab1-part1-host1 ip addr add 1.1.1.1/24 dev eth1
+docker exec clab-lab1-part1-host1 ip link set dev eth1 up
+docker exec clab-lab1-part1-host1 ip route add default via 1.1.1.254
 
-for i in {1..4}; do
-    docker cp ./provided/onepkt.py clab-lab1-part1-host$i:/lab-folder/onepkt.py
-done
+docker exec clab-lab1-part1-host2 ip addr add 1.1.1.2/24 dev eth1
+docker exec clab-lab1-part1-host2 ip link set dev eth1 up
+docker exec clab-lab1-part1-host2 ip route add default via 1.1.1.254
 
-host1 /lab-folder/onepkt.py host1 host2 test-pkt1
-host2 /lab-folder/onepkt.py host2 host3 test-pkt2
+docker exec clab-lab1-part1-host3 ip addr add 1.1.1.3/24 dev eth1
+docker exec clab-lab1-part1-host3 ip link set dev eth1 up
+docker exec clab-lab1-part1-host3 ip route add default via 1.1.1.254
+
+docker exec clab-lab1-part1-host4 ip addr add 1.1.1.4/24 dev eth1
+docker exec clab-lab1-part1-host4 ip link set dev eth1 up
+docker exec clab-lab1-part1-host4 ip route add default via 1.1.1.254
